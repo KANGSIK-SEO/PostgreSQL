@@ -1,78 +1,65 @@
--- ============================================================
--- 주제: 퍼블릭 도메인 명화 챗봇 서비스 로그 DB
--- (AITOOLLEARN-7-1 레포에서 실제로 설계/운영 중인 users/artworks/chats/
---  favorites/rights_records 테이블의 PK-FK 관계를 이 과제용으로 재구성)
--- DB: PostgreSQL (표준 SQL 범위 내에서 작성, BIGSERIAL만 Postgres 전용 문법)
---
--- 실행 순서: users, artworks (부모 테이블) -> chats, favorites,
---            rights_records (자식 테이블, FK로 부모를 참조)
--- ============================================================
+-- 공공 미술관 오픈 데이터 기반 소장품 DB
+-- 출처: The Met Open Access(CC0), Art Institute of Chicago API(CC0), Cleveland Museum of Art Open Access(CC0)
+-- 원본 수집: github.com/KANGSIK-SEO/AITOOLLEARN-7-1 (scripts/collect_met.py 등)에서 받은 실제 소장품 데이터를
+--          교육용으로 artists/departments/classifications/artworks/curation_logs 5개 테이블로 정규화함
 
-DROP TABLE IF EXISTS rights_records;
-DROP TABLE IF EXISTS favorites;
-DROP TABLE IF EXISTS chats;
-DROP TABLE IF EXISTS artworks;
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS curation_logs CASCADE;
+DROP TABLE IF EXISTS artworks CASCADE;
+DROP TABLE IF EXISTS classifications CASCADE;
+DROP TABLE IF EXISTS departments CASCADE;
+DROP TABLE IF EXISTS artists CASCADE;
 
--- 1. 회원
-CREATE TABLE users (
-    id            BIGSERIAL PRIMARY KEY,
-    email         VARCHAR(255) NOT NULL UNIQUE,     -- 로그인 식별자, 중복 가입 방지
-    password_hash TEXT         NOT NULL,
-    is_premium    BOOLEAN      NOT NULL DEFAULT FALSE,
-    created_at    TIMESTAMP    NOT NULL DEFAULT now()
+CREATE TABLE artists (
+    artist_id    SERIAL PRIMARY KEY,
+    name         TEXT NOT NULL UNIQUE,
+    nationality  TEXT,
+    bio          TEXT
 );
 
--- 2. 공공 소장 명화 (출처 기관 API에서 수집)
+CREATE TABLE departments (
+    department_id SERIAL PRIMARY KEY,
+    source_code   TEXT NOT NULL CHECK (source_code IN ('met', 'aic', 'cma')),
+    museum_name   TEXT NOT NULL,
+    name          TEXT NOT NULL,
+    UNIQUE (source_code, name)
+);
+
+CREATE TABLE classifications (
+    classification_id SERIAL PRIMARY KEY,
+    name               TEXT NOT NULL UNIQUE
+);
+
 CREATE TABLE artworks (
-    id               BIGSERIAL    PRIMARY KEY,
-    source           VARCHAR(20)  NOT NULL CHECK (source IN ('met', 'aic', 'cma')),
-    source_id        VARCHAR(50)  NOT NULL,          -- 출처 기관 내부 작품 ID
-    title            VARCHAR(300) NOT NULL,
-    artist           VARCHAR(200),
-    year_start       INTEGER,
-    year_end         INTEGER,
-    medium           VARCHAR(200),
-    origin           VARCHAR(100),                   -- 제작 국가/문화권
-    is_public_domain BOOLEAN      NOT NULL DEFAULT TRUE,
-    license          VARCHAR(20)  NOT NULL DEFAULT 'CC0',
-    collected_at     TIMESTAMP    NOT NULL DEFAULT now(),
-    UNIQUE (source, source_id)                        -- 같은 기관의 같은 작품을 중복 수집하지 않음
+    artwork_id        SERIAL PRIMARY KEY,
+    source_code       TEXT NOT NULL CHECK (source_code IN ('met', 'aic', 'cma')),
+    source_object_id  TEXT NOT NULL,
+    title             TEXT NOT NULL,
+    artist_id         INTEGER NOT NULL REFERENCES artists (artist_id),
+    department_id     INTEGER NOT NULL REFERENCES departments (department_id),
+    classification_id INTEGER NOT NULL REFERENCES classifications (classification_id),
+    year_start        INTEGER,
+    year_end          INTEGER,
+    medium            TEXT,
+    origin            TEXT,
+    image_url         TEXT,
+    source_url        TEXT,
+    credit_line       TEXT,
+    is_public_domain  BOOLEAN NOT NULL DEFAULT TRUE,
+    is_highlight      BOOLEAN NOT NULL DEFAULT FALSE,
+    UNIQUE (source_code, source_object_id)
 );
 
--- 3. 채팅 로그 (users 1 : N chats)
-CREATE TABLE chats (
-    id          BIGSERIAL   PRIMARY KEY,
-    user_id     BIGINT      NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    question    TEXT        NOT NULL,
-    answer      TEXT,
-    status      VARCHAR(10) NOT NULL CHECK (status IN ('ok', 'error')),
-    latency_ms  INTEGER,
-    created_at  TIMESTAMP   NOT NULL DEFAULT now()
+CREATE TABLE curation_logs (
+    log_id       SERIAL PRIMARY KEY,
+    artwork_id   INTEGER NOT NULL REFERENCES artworks (artwork_id),
+    curator_name TEXT NOT NULL,
+    action       TEXT NOT NULL CHECK (action IN
+                   ('등록검수', '재감정', '설명수정', '이미지교체', '비공개처리', '공개복구', '라이선스확인')),
+    action_date  DATE NOT NULL,
+    note         TEXT
 );
 
--- 회원별 최근 채팅 조회가 가장 빈번한 접근 경로라, FK 컬럼(user_id)과
--- 정렬 기준(created_at)을 묶은 복합 인덱스를 둔다.
-CREATE INDEX idx_chats_user_time ON chats (user_id, created_at);
-
--- 4. 즐겨찾기 (users 1 : N favorites, artworks 1 : N favorites)
-CREATE TABLE favorites (
-    id         BIGSERIAL PRIMARY KEY,
-    user_id    BIGINT    NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    artwork_id BIGINT    NOT NULL REFERENCES artworks(id) ON DELETE CASCADE,
-    created_at TIMESTAMP NOT NULL DEFAULT now(),
-    UNIQUE (user_id, artwork_id)                       -- 같은 작품을 두 번 즐겨찾기할 수 없음
-);
-
--- 어떤 작품이 즐겨찾기로 많이 쌓였는지 집계할 때 artwork_id로 자주 묻는다.
-CREATE INDEX idx_favorites_artwork ON favorites (artwork_id);
-
--- 5. 저작권(퍼블릭 도메인) 발급 기록 (artworks 1 : N rights_records, users 1 : N rights_records)
-CREATE TABLE rights_records (
-    number     VARCHAR(20) PRIMARY KEY,                -- 예: PD-2026-0001
-    artwork_id BIGINT      NOT NULL REFERENCES artworks(id) ON DELETE CASCADE,
-    user_id    BIGINT               REFERENCES users(id) ON DELETE SET NULL,  -- 비로그인 발급이면 NULL
-    snapshot   TEXT        NOT NULL,                    -- 발급 시점 판정/출처 표기 스냅숏
-    signature  VARCHAR(128) NOT NULL,
-    issued_at  TIMESTAMP   NOT NULL DEFAULT now()
-);
+-- 조회 성능을 위한 인덱스
+CREATE INDEX idx_artworks_artist_id ON artworks (artist_id);
+CREATE INDEX idx_artworks_year      ON artworks (year_start, year_end);
+CREATE INDEX idx_curation_logs_artwork_id ON curation_logs (artwork_id);

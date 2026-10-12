@@ -1,0 +1,259 @@
+ artwork_id |                   title                    | year_start |                                                medium                                                
+------------+--------------------------------------------+------------+------------------------------------------------------------------------------------------------------
+          9 | Standing Vishnu as Keshava                 |       1100 | Stone
+         61 | Quatrain on fishermen                      |       1107 | Fan mounted as album leaf; ink on silk
+         62 | Couplet on pond scenery                    |       1127 | Fan mounted as an album leaf; ink on silk
+         63 | Couplet by Han Yu                          |       1147 | Fan mounted as an album leaf; ink on silk
+         64 | Quatrain on Heavenly Mountain              |       1162 | Fan mounted as album leaf; ink on silk
+         13 | Dish with peonies                          |       1300 | Carved red lacquer
+         14 | Dish with long-tailed birds and hibiscuses |       1334 | Carved red lacquer
+         69 | Plate                                      |       1500 | White porcelain decorated with blue under the glaze (Arita ware, Imari type)
+         33 | Adam and Eve                               |       1504 | Engraving
+         17 | Arm of Eve                                 |       1507 | point of brush and gray and black wash, brush and gray and black wash, heightened with white gouache
+(10개 행)
+
+ artwork_id |                                                                             title                                                                              | year_start |                                                   medium                                                   
+------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+------------+------------------------------------------------------------------------------------------------------------
+         73 | Seated Draped Figure                                                                                                                                           |       1856 | Collotype on laid paper
+         74 | Au Bal des Etudiants                                                                                                                                           |       1875 | photographic reproduction of a drawing
+         75 | The Tall Bridge                                                                                                                                                |       1878 | Photo-lithographic reproduction in black ink on ivory laid paper
+         76 | The Tall Bridge                                                                                                                                                |       1878 | Photo-lithographic reproduction in black ink on ivory laid paper
+         77 | Glory and Praise to You, Satan, in the Heights of Heaven, Where You Reigned, and in the Depths of Hell, Where, Vanquished, You Dream in Silence!, plate 8 of 9 |       1890 | Photogravure made from an original drawing, in black on ivory wove paper
+         78 | Ceaselessly by my side the demon stirs, plate 7 from Charles Baudelaire's Flowers of Evil                                                                      |       1890 | Photogravure made from an original drawing (Evely process), in black on ivory wove paper
+         79 | Cover/Frontispiece for Les Fleurs du Mal, plate 1 of 9                                                                                                         |       1890 | Bi-fold portfolio cover printed in black by photogravure from an original drawing, on blue-gray wove paper
+         80 | On the Backdrop of Our Nights God with His Knowing Finger Traces a Multiform Implacable Nightmare, plate 6 of 9                                                |       1890 | Photogravure made from an original drawing, in black on ivory wove paper
+(8개 행)
+
+ artwork_id |                                                                                                                               title                                                                                                                               | source_code | year_start 
+------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------+------------
+          9 | Standing Vishnu as Keshava                                                                                                                                                                                                                                        | met         |       1100
+         33 | Adam and Eve                                                                                                                                                                                                                                                      | met         |       1504
+         17 | Arm of Eve                                                                                                                                                                                                                                                        | cma         |       1507
+         34 | Melencolia I                                                                                                                                                                                                                                                      | met         |       1514
+          1 | Virgin and Child with Saint Anne                                                                                                                                                                                                                                  | met         |       1519
+         18 | Music-Making Angels                                                                                                                                                                                                                                               | met         |       1521
+         41 | "Alberti Dvreri pictoris et architecti praestantissimi De vrbibvs..."                                                                                                                                                                                             | met         |       1535
+         42 | Vita di Michelagnolo Buonarroti raccolta per Ascanio Condivi da la Ripa Transone                                                                                                                                                                                  | met         |       1553
+         43 | Bononiensis de architectura libri quinque quibus cuncta fere architectonicae facultatis mysteria docte, perspicue . . .                                                                                                                                           | met         |       1568
+         44 | I quattro libri dell'architettura di Andrea Palladio . . .                                                                                                                                                                                                        | met         |       1570
+         45 | Academie de l'espee; ou se domonstrent par reigles mathématiques sur le fondement d'un cercle mystérieux, la théorie et pratique des vrais . . .                                                                                                                  | met         |       1628
+         46 | Vita del Tintoretto                                                                                                                                                                                                                                               | met         |       1642
+         47 | Pratiqve de la Guerre. Contenant l'usage de l'Artillerie, Bombes & Mortiers, Feux Artificiels & Petards, Sappes & Mines, Ponts & Pontons, Tranchees & Travaux, auec l'ordre des Assauts aux Breches. Ensemble vn traite des Feux de Ioye/par le sievr de Malthvs… | met         |       1650
+         35 | Christ Crucified Between the Two Thieves: 'The Three Crosses'                                                                                                                                                                                                     | cma         |       1653
+         50 | Wine cup                                                                                                                                                                                                                                                          | met         |       1660
+         48 | Phonurgia nova, sive conjugium mechanico-physicum artis & natvrae paranympha phonosophia concinnatum . . .                                                                                                                                                        | met         |       1673
+         51 | Doct. Johan Arndts, dess gottseligen und hocherleuchteten Lehrers Paradijss Gärtlein : welches voller christlichen Tugend-Gebete erfüllet                                                                                                                         | met         |       1696
+         52 | Book cover                                                                                                                                                                                                                                                        | met         |       1730
+         58 | Embroidered Picture                                                                                                                                                                                                                                               | met         |       1751
+         59 | Sampler                                                                                                                                                                                                                                                           | met         |       1807
+         36 | Under the Wave off Kanagawa (Kanagawa oki nami ura), or The Great Wave, from the series Thirty-six Views of Mount Fuji (Fugaku sanjūrokkei)                                                                                                                       | met         |       1820
+         66 | Vase                                                                                                                                                                                                                                                              | met         |       1828
+         37 | Self-Portrait                                                                                                                                                                                                                                                     | cma         |       1857
+         25 | Sheet of Studies and Sketches                                                                                                                                                                                                                                     | cma         |       1858
+          2 | The Spanish Singer                                                                                                                                                                                                                                                | met         |       1860
+         19 | Édouard Manet, Seated, Holding His Hat                                                                                                                                                                                                                            | met         |       1863
+          3 | The Rocky Mountains, Lander's Peak                                                                                                                                                                                                                                | met         |       1863
+          4 | Romaine Lacaux                                                                                                                                                                                                                                                    | cma         |       1864
+          5 | A Woman Seated beside a Vase of Flowers (Madame Paul Valpinçon?)                                                                                                                                                                                                  | met         |       1865
+          6 | The Veteran in a New Field                                                                                                                                                                                                                                        | met         |       1865
+          7 | Young Lady in 1866                                                                                                                                                                                                                                                | met         |       1866
+          8 | The Red Kerchief                                                                                                                                                                                                                                                  | cma         |       1868
+         26 | Boy with Anchor                                                                                                                                                                                                                                                   | cma         |       1873
+         53 | The Bryant Vase                                                                                                                                                                                                                                                   | met         |       1876
+         67 | Century Vase                                                                                                                                                                                                                                                      | met         |       1877
+         38 | Nocturne (Nocturne: The Thames at Battersea)                                                                                                                                                                                                                      | met         |       1878
+         54 | Chocolate Pot                                                                                                                                                                                                                                                     | met         |       1879
+         55 | Corsage Piece                                                                                                                                                                                                                                                     | met         |       1880
+         56 | Architectural woodwork and paneling                                                                                                                                                                                                                               | met         |       1881
+         28 | Landscape with Wheelbarrow                                                                                                                                                                                                                                        | cma         |       1883
+         27 | Inside the Bar                                                                                                                                                                                                                                                    | met         |       1883
+         60 | Tulips panel                                                                                                                                                                                                                                                      | met         |       1883
+         10 | Abraham Lincoln: The Man (Standing Lincoln)                                                                                                                                                                                                                       | met         |       1884
+         39 | Estérel Village                                                                                                                                                                                                                                                   | cma         |       1885
+         20 | Woman Having Her Hair Combed                                                                                                                                                                                                                                      | met         |       1886
+         21 | Corridor in the Asylum                                                                                                                                                                                                                                            | met         |       1889
+         40 | In the Omnibus                                                                                                                                                                                                                                                    | cma         |       1890
+         23 | Armor                                                                                                                                                                                                                                                             | met         |       1891
+         22 | Dancers                                                                                                                                                                                                                                                           | cma         |       1891
+         11 | Victory                                                                                                                                                                                                                                                           | met         |       1892
+         24 | Monsieur Boileau at the Café                                                                                                                                                                                                                                      | cma         |       1893
+         68 | Teapot                                                                                                                                                                                                                                                            | met         |       1894
+         12 | The Broncho Buster                                                                                                                                                                                                                                                | met         |       1895
+         29 | Still-Life with a Watermelon and Pomegranates                                                                                                                                                                                                                     | met         |       1900
+         30 | In the Generalife                                                                                                                                                                                                                                                 | met         |       1912
+(55개 행)
+
+ artist_id |        name        | nationality 
+-----------+--------------------+-------------
+        46 | Rembrandt van Rijn | Dutch
+        55 | Vincent van Gogh   | Dutch
+(2개 행)
+
+                                                                      title                                                                       |            artist_name            | nationality 
+--------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------+-------------
+ "Alberti Dvreri pictoris et architecti praestantissimi De vrbibvs..."                                                                            | Albrecht Dürer                    | German
+ A Woman Seated beside a Vase of Flowers (Madame Paul Valpinçon?)                                                                                 | Edgar Degas                       | French
+ Abraham Lincoln: The Man (Standing Lincoln)                                                                                                      | Augustus Saint-Gaudens            | American
+ Academie de l'espee; ou se domonstrent par reigles mathématiques sur le fondement d'un cercle mystérieux, la théorie et pratique des vrais . . . | Girard Thibault                   | Flemish
+ Adam and Eve                                                                                                                                     | Albrecht Dürer                    | German
+ Afternoon Tea Party                                                                                                                              | Mary Cassatt                      | American
+ Architectural woodwork and paneling                                                                                                              | George A. Schastey & Co.          | American
+ Arm of Eve                                                                                                                                       | Albrecht Dürer                    | German
+ Armor                                                                                                                                            | Odilon Redon                      | French
+ Au Bal des Etudiants                                                                                                                             | Henri de Toulouse-Lautrec         | French
+ Avalokiteshvara, the Bodhisattva of Infinite Compassion                                                                                          | Choying Dorje (the Tenth Karmapa) | 
+ Bittern's Wings: study showing both sides                                                                                                        | Albrecht Dürer                    | German
+ Bononiensis de architectura libri quinque quibus cuncta fere architectonicae facultatis mysteria docte, perspicue . . .                          | Sebastiano Serlio                 | Italian
+ Book cover                                                                                                                                       | Johann Jakob Bruglocher II        | German
+ Box for Personal Accessories (Tebako) with Decoration Based on a Poem from the Shinkokinshū                                                      | Kōami Chōjū                       | Japanese
+(15개 행)
+
+                                                                             title                                                                              |       museum_name        |            department_name             | classification_name 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------+----------------------------------------+---------------------
+ Matsuchiyama on the Sumida River                                                                                                                               | Art Institute of Chicago | Arts of Asia                           | Textiles
+ The Tall Bridge                                                                                                                                                | Art Institute of Chicago | Prints and Drawings                    | Photographs
+ On the Backdrop of Our Nights God with His Knowing Finger Traces a Multiform Implacable Nightmare, plate 6 of 9                                                | Art Institute of Chicago | Prints and Drawings                    | Photographs
+ Afternoon Tea Party                                                                                                                                            | Art Institute of Chicago | Prints and Drawings                    | Metalwork
+ Ceaselessly by my side the demon stirs, plate 7 from Charles Baudelaire's Flowers of Evil                                                                      | Art Institute of Chicago | Prints and Drawings                    | Photographs
+ Glory and Praise to You, Satan, in the Heights of Heaven, Where You Reigned, and in the Depths of Hell, Where, Vanquished, You Dream in Silence!, plate 8 of 9 | Art Institute of Chicago | Prints and Drawings                    | Photographs
+ Cover/Frontispiece for Les Fleurs du Mal, plate 1 of 9                                                                                                         | Art Institute of Chicago | Prints and Drawings                    | Photographs
+ The Tall Bridge                                                                                                                                                | Art Institute of Chicago | Prints and Drawings                    | Photographs
+ Landscape with Wheelbarrow                                                                                                                                     | Cleveland Museum of Art  | Drawings                               | Watercolors
+ Boy with Anchor                                                                                                                                                | Cleveland Museum of Art  | Drawings                               | Watercolors
+ Monsieur Boileau at the Café                                                                                                                                   | Cleveland Museum of Art  | Drawings                               | Drawings
+ Arm of Eve                                                                                                                                                     | Cleveland Museum of Art  | Drawings                               | Drawings
+ Dancers                                                                                                                                                        | Cleveland Museum of Art  | Drawings                               | Drawings
+ Sheet of Studies and Sketches                                                                                                                                  | Cleveland Museum of Art  | Drawings                               | Watercolors
+ Romaine Lacaux                                                                                                                                                 | Cleveland Museum of Art  | Modern European Painting and Sculpture | Paintings
+(15개 행)
+
+ artwork_id |                              title                               |    action    | action_date 
+------------+------------------------------------------------------------------+--------------+-------------
+          1 | Virgin and Child with Saint Anne                                 |              | 
+          2 | The Spanish Singer                                               |              | 
+          3 | The Rocky Mountains, Lander's Peak                               |              | 
+          4 | Romaine Lacaux                                                   | 재감정       | 2026-04-17
+          5 | A Woman Seated beside a Vase of Flowers (Madame Paul Valpinçon?) |              | 
+          6 | The Veteran in a New Field                                       |              | 
+          7 | Young Lady in 1866                                               |              | 
+          8 | The Red Kerchief                                                 |              | 
+          9 | Standing Vishnu as Keshava                                       |              | 
+         10 | Abraham Lincoln: The Man (Standing Lincoln)                      |              | 
+         11 | Victory                                                          |              | 
+         12 | The Broncho Buster                                               |              | 
+         13 | Dish with peonies                                                | 라이선스확인 | 2026-06-20
+         14 | Dish with long-tailed birds and hibiscuses                       |              | 
+         15 | The Dirty Bride or The Wedding of Mopsus and Nisa                |              | 
+         16 | Avalokiteshvara, the Bodhisattva of Infinite Compassion          | 등록검수     | 2026-09-10
+         17 | Arm of Eve                                                       |              | 
+         18 | Music-Making Angels                                              |              | 
+         19 | Édouard Manet, Seated, Holding His Hat                           |              | 
+         20 | Woman Having Her Hair Combed                                     |              | 
+(20개 행)
+
+            artist_name            |                                                          title                                                          | year_start 
+-----------------------------------+-------------------------------------------------------------------------------------------------------------------------+------------
+ Dasoja of Balligrama              | Standing Vishnu as Keshava                                                                                              |       1100
+ Emperor Gaozong                   | Quatrain on fishermen                                                                                                   |       1107
+ Emperor Xiaozong                  | Couplet on pond scenery                                                                                                 |       1127
+ Emperor Guangzong                 | Couplet by Han Yu                                                                                                       |       1147
+ Yang Mao                          | Dish with peonies                                                                                                       |       1300
+ Zhang Cheng                       | Dish with long-tailed birds and hibiscuses                                                                              |       1334
+ Gorodayu Shonzui                  | Plate                                                                                                                   |       1500
+ Albrecht Dürer                    | Adam and Eve                                                                                                            |       1504
+ Ascanio Condivi                   | Vita di Michelagnolo Buonarroti raccolta per Ascanio Condivi da la Ripa Transone                                        |       1553
+ Pieter Bruegel the Elder          | The Dirty Bride or The Wedding of Mopsus and Nisa                                                                       |       1561
+ Sebastiano Serlio                 | Bononiensis de architectura libri quinque quibus cuncta fere architectonicae facultatis mysteria docte, perspicue . . . |       1568
+ Andrea Palladio                   | I quattro libri dell'architettura di Andrea Palladio . . .                                                              |       1570
+ Choying Dorje (the Tenth Karmapa) | Avalokiteshvara, the Bodhisattva of Infinite Compassion                                                                 |       1600
+ Nonomura Ninsei                   | Water Jar                                                                                                               |       1600
+ Shi Dabin                         | Teapot in the Shape of a Plum Blossom                                                                                   |       1600
+(15개 행)
+
+ classification_name | artwork_count | avg_year 
+---------------------+---------------+----------
+ Metalwork           |             8 |     1812
+ Lacquerware         |             8 |     1699
+ Textiles            |             8 |     1477
+ Sculpture           |             8 |     1571
+ Watercolors         |             8 |     1826
+ Books               |             8 |     1602
+ Paintings           |             8 |     1821
+ Ceramics            |             8 |     1722
+ Prints              |             8 |     1750
+ Drawings            |             8 |     1793
+ Photographs         |             8 |     1881
+ Jade Carvings       |             4 |     1826
+(12개 행)
+
+          museum_name           | artwork_count 
+--------------------------------+---------------
+ The Metropolitan Museum of Art |            72
+ Cleveland Museum of Art        |            12
+ Art Institute of Chicago       |             8
+(3개 행)
+
+  artist_name   | artwork_count 
+----------------+---------------
+ Edgar Degas    |             7
+ Albrecht Dürer |             7
+ Tiffany & Co.  |             6
+ Odilon Redon   |             5
+(4개 행)
+
+ artwork_id |                              title                               | year_start 
+------------+------------------------------------------------------------------+------------
+          1 | Virgin and Child with Saint Anne                                 |       1519
+          2 | The Spanish Singer                                               |       1860
+          3 | The Rocky Mountains, Lander's Peak                               |       1863
+          5 | A Woman Seated beside a Vase of Flowers (Madame Paul Valpinçon?) |       1865
+          6 | The Veteran in a New Field                                       |       1865
+          7 | Young Lady in 1866                                               |       1866
+          8 | The Red Kerchief                                                 |       1868
+          9 | Standing Vishnu as Keshava                                       |       1100
+         10 | Abraham Lincoln: The Man (Standing Lincoln)                      |       1884
+         11 | Victory                                                          |       1892
+         12 | The Broncho Buster                                               |       1895
+         14 | Dish with long-tailed birds and hibiscuses                       |       1334
+         15 | The Dirty Bride or The Wedding of Mopsus and Nisa                |       1561
+         17 | Arm of Eve                                                       |       1507
+         18 | Music-Making Angels                                              |       1521
+(15개 행)
+
+UPDATE 2
+ artwork_id |                                           title                                           | is_public_domain 
+------------+-------------------------------------------------------------------------------------------+------------------
+         70 | Water Jar                                                                                 | f
+         78 | Ceaselessly by my side the demon stirs, plate 7 from Charles Baudelaire's Flowers of Evil | f
+(2개 행)
+
+DELETE 2
+    action    | count 
+--------------+-------
+ 공개복구     |     2
+ 등록검수     |     4
+ 라이선스확인 |     2
+ 비공개처리   |     2
+ 설명수정     |     1
+ 이미지교체   |     1
+ 재감정       |     1
+(7개 행)
+
+                                                          QUERY PLAN                                                          
+------------------------------------------------------------------------------------------------------------------------------
+ Index Scan using idx_artworks_year on artworks  (cost=0.15..8.17 rows=1 width=40) (actual time=0.002..0.007 rows=49 loops=1)
+   Index Cond: ((year_start >= 1800) AND (year_start <= 1900))
+ Planning Time: 0.013 ms
+ Execution Time: 0.010 ms
+(4개 행)
+
+SET
+                                                          QUERY PLAN                                                          
+------------------------------------------------------------------------------------------------------------------------------
+ Index Scan using idx_artworks_year on artworks  (cost=0.15..8.17 rows=1 width=40) (actual time=0.002..0.008 rows=49 loops=1)
+   Index Cond: ((year_start >= 1800) AND (year_start <= 1900))
+ Planning Time: 0.016 ms
+ Execution Time: 0.012 ms
+(4개 행)
+
+SET

@@ -1,93 +1,159 @@
--- ============================================================
--- 핵심 쿼리 15개
--- 각 쿼리 위에 "무엇을 확인하는 쿼리인지" 한 줄 설명을 붙인다.
--- ============================================================
+-- 공공 미술관 오픈데이터(MET/AIC/CMA) 소장품 DB — 쿼리 15개
+-- 구성: 기본조회 4 / 조인 4 / 집계 3 / 서브쿼리 1 / 수정·삭제 2 / 인덱스 1
 
--- [기본조회 1] 프리미엄 회원을 가입일 최신순으로 5명까지 조회
-SELECT id, email, is_premium, created_at
-FROM users
-WHERE is_premium = TRUE
-ORDER BY created_at DESC
-LIMIT 5;
-
--- [기본조회 2] met 출처 작품을 제작연도 오래된 순으로 조회
-SELECT id, title, artist, year_start
+-- =========================================================
+-- [기본조회 1] 1900년 이전에 제작된 퍼블릭 도메인 작품을 제작연도 순으로 조회
+-- =========================================================
+SELECT artwork_id, title, year_start, medium
 FROM artworks
-WHERE source = 'met'
-ORDER BY year_start ASC;
+WHERE is_public_domain = TRUE AND year_start < 1900
+ORDER BY year_start
+LIMIT 10;
 
--- [기본조회 3] 응답에 실패(error)한 채팅 로그를 최근순으로 조회
-SELECT id, user_id, question, status, created_at
-FROM chats
-WHERE status = 'error'
-ORDER BY created_at DESC;
+-- =========================================================
+-- [기본조회 2] 분류(classification)가 'Photographs'인 작품만 조회
+-- =========================================================
+SELECT a.artwork_id, a.title, a.year_start, a.medium
+FROM artworks a
+JOIN classifications c ON a.classification_id = c.classification_id
+WHERE c.name = 'Photographs'
+ORDER BY a.year_start;
 
--- [기본조회 4] cma 출처 작품을 제목순으로 상위 5개 조회
-SELECT id, title, artist
+-- =========================================================
+-- [기본조회 3] 하이라이트(대표 소장품)로 지정된 작품 목록
+-- =========================================================
+SELECT artwork_id, title, source_code, year_start
 FROM artworks
-WHERE source = 'cma'
-ORDER BY title ASC
-LIMIT 5;
+WHERE is_highlight = TRUE
+ORDER BY year_start;
 
--- [조인 1 - INNER] 회원별 채팅 질문/응답 내역 조회
-SELECT u.email, c.question, c.answer, c.status, c.created_at
-FROM users u
-INNER JOIN chats c ON c.user_id = u.id
-ORDER BY c.created_at;
+-- =========================================================
+-- [기본조회 4] 작가 이름에 'van'이 들어가는 작가 조회 (대소문자 무시)
+-- =========================================================
+SELECT artist_id, name, nationality
+FROM artists
+WHERE name ILIKE '%van%'
+ORDER BY name;
 
--- [조인 2 - INNER] 즐겨찾기한 회원과 작품 정보를 함께 조회
-SELECT u.email, a.title, a.artist, f.created_at AS favorited_at
-FROM favorites f
-INNER JOIN users u ON u.id = f.user_id
-INNER JOIN artworks a ON a.id = f.artwork_id
-ORDER BY f.created_at;
+-- =========================================================
+-- [조인 1] 작품 - 작가 INNER JOIN: 각 작품의 작가 국적 함께 표시
+-- =========================================================
+SELECT ar.title, au.name AS artist_name, au.nationality
+FROM artworks ar
+JOIN artists au ON ar.artist_id = au.artist_id
+ORDER BY ar.title
+LIMIT 15;
 
--- [조인 3 - INNER] 저작권 발급 기록을 작품·회원 정보와 함께 조회 (비로그인 발급 제외)
-SELECT r.number, a.title, u.email, r.issued_at
-FROM rights_records r
-INNER JOIN artworks a ON a.id = r.artwork_id
-INNER JOIN users u ON u.id = r.user_id
-ORDER BY r.issued_at;
+-- =========================================================
+-- [조인 2] 작품 - 부서 - 분류 3중 JOIN: 소장 기관/부서/분류를 한번에 조회
+-- =========================================================
+SELECT ar.title, d.museum_name, d.name AS department_name, c.name AS classification_name
+FROM artworks ar
+JOIN departments d ON ar.department_id = d.department_id
+JOIN classifications c ON ar.classification_id = c.classification_id
+ORDER BY d.museum_name, d.name
+LIMIT 15;
 
--- [조인 4 - LEFT] 모든 회원을 기준으로, 저작권 발급 기록이 없는 회원도 함께 조회
-SELECT u.email, r.number, r.issued_at
-FROM users u
-LEFT JOIN rights_records r ON r.user_id = u.id
-ORDER BY u.id;
+-- =========================================================
+-- [조인 3] LEFT JOIN: 전체 작품에 대해 큐레이션 로그가 있으면 함께, 없으면 NULL로 표시
+-- (INNER JOIN과 달리 로그가 없는 작품도 결과에서 빠지지 않음을 확인)
+-- =========================================================
+SELECT ar.artwork_id, ar.title, cl.action, cl.action_date
+FROM artworks ar
+LEFT JOIN curation_logs cl ON ar.artwork_id = cl.artwork_id
+ORDER BY ar.artwork_id
+LIMIT 20;
 
--- [집계 1 - COUNT] 회원별 채팅 횟수 집계
-SELECT user_id, COUNT(*) AS chat_count
-FROM chats
-GROUP BY user_id
-ORDER BY chat_count DESC;
+-- =========================================================
+-- [조인 4] 작가별 최고령(가장 오래된) 작품 1건씩 — JOIN + 집계 서브쿼리 혼합
+-- =========================================================
+SELECT au.name AS artist_name, ar.title, ar.year_start
+FROM artworks ar
+JOIN artists au ON ar.artist_id = au.artist_id
+JOIN (
+    SELECT artist_id, MIN(year_start) AS min_year
+    FROM artworks
+    WHERE year_start IS NOT NULL
+    GROUP BY artist_id
+) oldest ON ar.artist_id = oldest.artist_id AND ar.year_start = oldest.min_year
+ORDER BY ar.year_start
+LIMIT 15;
 
--- [집계 2 - AVG] 출처(source)별 작품 평균 제작연도 집계
-SELECT source, ROUND(AVG(year_start), 1) AS avg_year_start
+-- =========================================================
+-- [집계 1] 분류(classification)별 작품 수와 평균 제작연도
+-- =========================================================
+SELECT c.name AS classification_name, COUNT(*) AS artwork_count, ROUND(AVG(ar.year_start)) AS avg_year
+FROM artworks ar
+JOIN classifications c ON ar.classification_id = c.classification_id
+GROUP BY c.name
+ORDER BY artwork_count DESC;
+
+-- =========================================================
+-- [집계 2] 소장 기관(museum)별 작품 수
+-- =========================================================
+SELECT d.museum_name, COUNT(*) AS artwork_count
+FROM artworks ar
+JOIN departments d ON ar.department_id = d.department_id
+GROUP BY d.museum_name
+ORDER BY artwork_count DESC;
+
+-- =========================================================
+-- [집계 3] 작품을 5건 이상 보유한 작가만 집계 (HAVING)
+-- =========================================================
+SELECT au.name AS artist_name, COUNT(*) AS artwork_count
+FROM artworks ar
+JOIN artists au ON ar.artist_id = au.artist_id
+GROUP BY au.name
+HAVING COUNT(*) >= 5
+ORDER BY artwork_count DESC;
+
+-- =========================================================
+-- [서브쿼리] 큐레이션 로그가 한 번도 생성되지 않은 작품 찾기 (NOT IN 서브쿼리)
+-- =========================================================
+SELECT artwork_id, title, year_start
 FROM artworks
-GROUP BY source
-ORDER BY avg_year_start;
+WHERE artwork_id NOT IN (SELECT artwork_id FROM curation_logs)
+ORDER BY artwork_id
+LIMIT 15;
 
--- [집계 3 - SUM] 채팅 상태(status)별 총 응답 지연시간(ms) 합계
-SELECT status, SUM(latency_ms) AS total_latency_ms, COUNT(*) AS cnt
-FROM chats
-GROUP BY status;
+-- =========================================================
+-- [수정 1] '비공개처리' 로그가 있는 작품은 is_public_domain을 FALSE로 일괄 수정
+-- =========================================================
+UPDATE artworks
+SET is_public_domain = FALSE
+WHERE artwork_id IN (
+    SELECT artwork_id FROM curation_logs WHERE action = '비공개처리'
+);
 
--- [서브쿼리] 채팅 기록이 한 번도 없는 회원 찾기
-SELECT email
-FROM users
-WHERE id NOT IN (SELECT DISTINCT user_id FROM chats);
+-- 수정 결과 확인
+SELECT ar.artwork_id, ar.title, ar.is_public_domain
+FROM artworks ar
+WHERE ar.artwork_id IN (SELECT artwork_id FROM curation_logs WHERE action = '비공개처리');
 
--- [수정] 채팅을 2회 이상 사용한 회원을 프리미엄으로 승급
-UPDATE users
-SET is_premium = TRUE
-WHERE id IN (
-    SELECT user_id FROM chats GROUP BY user_id HAVING COUNT(*) >= 2
-) AND is_premium = FALSE;
+-- =========================================================
+-- [삭제 1] 라이선스 확인만 하고 특별한 의미 없는 '라이선스확인' 로그는 보관 기간이 지나 정리
+-- =========================================================
+DELETE FROM curation_logs
+WHERE action = '라이선스확인' AND action_date < '2026-06-01';
 
--- [삭제] 응답에 실패(error)하고 지연시간이 2000ms를 넘는 채팅 로그 삭제 (장애성 기록 정리)
-DELETE FROM chats
-WHERE status = 'error' AND latency_ms > 2000;
+-- 삭제 후 남은 로그 건수 확인
+SELECT action, COUNT(*) FROM curation_logs GROUP BY action ORDER BY action;
 
--- [인덱스] 회원별 최근 채팅 조회가 가장 빈번해 (user_id, created_at) 복합 인덱스를 둔다
--- (01_schema.sql에서 이미 생성됨: idx_chats_user_time)
-CREATE INDEX IF NOT EXISTS idx_chats_user_time ON chats (user_id, created_at);
+-- =========================================================
+-- [인덱스] year_start/year_end 복합 인덱스(idx_artworks_year) 사용 여부 확인
+-- 현재 92행뿐이라 옵티마이저가 Seq Scan을 더 싸다고 판단할 수 있으므로,
+-- enable_seqscan을 잠시 꺼서 idx_artworks_year가 실제로 사용 가능함을 확인한다.
+-- =========================================================
+EXPLAIN ANALYZE
+SELECT title, year_start, year_end
+FROM artworks
+WHERE year_start BETWEEN 1800 AND 1900;
+
+SET enable_seqscan = off;
+
+EXPLAIN ANALYZE
+SELECT title, year_start, year_end
+FROM artworks
+WHERE year_start BETWEEN 1800 AND 1900;
+
+SET enable_seqscan = on;
