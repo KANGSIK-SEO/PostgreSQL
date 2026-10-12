@@ -1,0 +1,11 @@
+-- 데이터 정합성 깨뜨려 보기 (실제 실행 캡처)
+-- 존재하지 않는 회원(9999)을 참조하는 채팅을 넣어본다
+
+INSERT INTO chats (user_id, question, status) VALUES (9999, '테스트', 'ok');
+
+ERROR:  insert or update on table "chats" violates foreign key constraint "chats_user_id_fkey"
+상세정보:  Key (user_id)=(9999) is not present in table "users".
+
+-- 막히는 이유: chats.user_id가 users(id)를 참조하는 FOREIGN KEY라서,
+--            부모 테이블(users)에 없는 값은 자식 테이블(chats)에 넣을 수 없다 (참조 무결성).
+-- 고치는 방법: 존재하는 user_id를 쓰거나, users 테이블에 그 회원을 먼저 추가한 뒤 다시 넣는다.

@@ -1,0 +1,206 @@
+-- ============================================================
+-- 핵심 쿼리 15개
+-- 각 쿼리 위에 "무엇을 확인하는 쿼리인지" 한 줄 설명을 붙인다.
+-- ============================================================
+-- [기본조회 1] 프리미엄 회원을 가입일 최신순으로 5명까지 조회
+SELECT id, email, is_premium, created_at
+FROM users
+WHERE is_premium = TRUE
+ORDER BY created_at DESC
+LIMIT 5;
+ id |          email           | is_premium |     created_at      
+----+--------------------------+------------+---------------------
+ 10 | eunwoo.shin@example.com  | t          | 2026-03-18 19:25:00
+  7 | seoyeon.yoon@example.com | t          | 2026-02-15 13:10:00
+  4 | jihun.choi@example.com   | t          | 2026-01-20 18:45:00
+  1 | yuna.kim@example.com     | t          | 2026-01-05 09:12:00
+(4개 행)
+
+-- [기본조회 2] met 출처 작품을 제작연도 오래된 순으로 조회
+SELECT id, title, artist, year_start
+FROM artworks
+WHERE source = 'met'
+ORDER BY year_start ASC;
+ id |              title              |       artist        | year_start 
+----+---------------------------------+---------------------+------------
+  9 | Madame X                        | John Singer Sargent |       1884
+  3 | Self-Portrait with a Straw Hat  | Vincent van Gogh    |       1887
+  2 | The Starry Night Over the Rhone | Vincent van Gogh    |       1888
+  1 | Wheat Field with Cypresses      | Vincent van Gogh    |       1889
+ 12 | Cypresses                       | Vincent van Gogh    |       1889
+(5개 행)
+
+-- [기본조회 3] 응답에 실패(error)한 채팅 로그를 최근순으로 조회
+SELECT id, user_id, question, status, created_at
+FROM chats
+WHERE status = 'error'
+ORDER BY created_at DESC;
+ id | user_id |        question         | status |     created_at      
+----+---------+-------------------------+--------+---------------------
+ 15 |      10 | 존재하지 않는 작가 검색 | error  | 2026-03-18 19:35:00
+  8 |       6 | 고흐 작품 전체 목록     | error  | 2026-02-10 21:05:00
+  4 |       3 | 피카소 작품 알려줘      | error  | 2026-01-12 10:08:00
+(3개 행)
+
+-- [기본조회 4] cma 출처 작품을 제목순으로 상위 5개 조회
+SELECT id, title, artist
+FROM artworks
+WHERE source = 'cma'
+ORDER BY title ASC
+LIMIT 5;
+ id |         title          |     artist     
+----+------------------------+----------------
+  7 | La Vie                 | Pablo Picasso
+ 11 | The Fisherman          | Paul Gauguin
+  8 | The Repast of the Lion | Henri Rousseau
+(3개 행)
+
+-- [조인 1 - INNER] 회원별 채팅 질문/응답 내역 조회
+SELECT u.email, c.question, c.answer, c.status, c.created_at
+FROM users u
+INNER JOIN chats c ON c.user_id = u.id
+ORDER BY c.created_at;
+          email           |              question               |                      answer                      | status |     created_at      
+--------------------------+-------------------------------------+--------------------------------------------------+--------+---------------------
+ yuna.kim@example.com     | 반 고흐의 하늘 그림 보여줘          | 고흐의 밤 풍경 작품 2건을 찾았습니다.            | ok     | 2026-01-05 09:15:00
+ yuna.kim@example.com     | 같은 작가의 자화상도 있어?          | 자화상 1건을 추가로 찾았습니다.                  | ok     | 2026-01-05 09:20:00
+ minho.lee@example.com    | 미국 작가의 20세기 그림 추천해줘    | Nighthawks와 American Gothic을 추천합니다.       | ok     | 2026-01-08 14:35:00
+ sora.park@example.com    | 피카소 작품 알려줘                  |                                                  | error  | 2026-01-12 10:08:00
+ sora.park@example.com    | 피카소 초기작 보여줘                | La Vie, The Old Guitarist를 찾았습니다.          | ok     | 2026-01-12 10:12:00
+ jihun.choi@example.com   | 프랑스 화가 작품 중 퍼블릭 도메인만 | 프랑스 출신 작가 작품 3건입니다.                 | ok     | 2026-01-20 18:50:00
+ haeun.jung@example.com   | 고갱 작품 있어?                     | The Fisherman을 찾았습니다.                      | ok     | 2026-02-02 08:25:00
+ dowon.kang@example.com   | 고흐 작품 전체 목록                 |                                                  | error  | 2026-02-10 21:05:00
+ dowon.kang@example.com   | 고흐 작품 다시 검색해줘             | 고흐 작품 4건을 찾았습니다.                      | ok     | 2026-02-10 21:10:00
+ seoyeon.yoon@example.com | 1900년대 초 작품 보여줘             | La Vie, The Old Guitarist 등 4건입니다.          | ok     | 2026-02-15 13:15:00
+ taeyang.song@example.com | 쇠라 작품 설명해줘                  | A Sunday on La Grande Jatte를 설명합니다.        | ok     | 2026-03-01 12:00:00
+ narae.han@example.com    | 미국 화가 작품만 보고 싶어          | Nighthawks, American Gothic, Madame X 3건입니다. | ok     | 2026-03-09 16:45:00
+ narae.han@example.com    | 그 중에 가장 최신 작품은?           | Nighthawks(1942)가 가장 최신입니다.              | ok     | 2026-03-09 16:50:00
+ eunwoo.shin@example.com  | 루소 작품 알려줘                    | The Repast of the Lion을 찾았습니다.             | ok     | 2026-03-18 19:30:00
+ eunwoo.shin@example.com  | 존재하지 않는 작가 검색             |                                                  | error  | 2026-03-18 19:35:00
+(15개 행)
+
+-- [조인 2 - INNER] 즐겨찾기한 회원과 작품 정보를 함께 조회
+SELECT u.email, a.title, a.artist, f.created_at AS favorited_at
+FROM favorites f
+INNER JOIN users u ON u.id = f.user_id
+INNER JOIN artworks a ON a.id = f.artwork_id
+ORDER BY f.created_at;
+          email           |              title              |      artist      |    favorited_at     
+--------------------------+---------------------------------+------------------+---------------------
+ yuna.kim@example.com     | Wheat Field with Cypresses      | Vincent van Gogh | 2026-01-05 09:16:00
+ yuna.kim@example.com     | The Starry Night Over the Rhone | Vincent van Gogh | 2026-01-05 09:21:00
+ minho.lee@example.com    | Nighthawks                      | Edward Hopper    | 2026-01-08 14:36:00
+ minho.lee@example.com    | American Gothic                 | Grant Wood       | 2026-01-08 14:38:00
+ sora.park@example.com    | La Vie                          | Pablo Picasso    | 2026-01-12 10:13:00
+ jihun.choi@example.com   | A Sunday on La Grande Jatte     | Georges Seurat   | 2026-01-20 18:52:00
+ haeun.jung@example.com   | The Fisherman                   | Paul Gauguin     | 2026-02-02 08:26:00
+ dowon.kang@example.com   | Wheat Field with Cypresses      | Vincent van Gogh | 2026-02-10 21:11:00
+ seoyeon.yoon@example.com | The Old Guitarist               | Pablo Picasso    | 2026-02-15 13:17:00
+ taeyang.song@example.com | A Sunday on La Grande Jatte     | Georges Seurat   | 2026-03-01 12:02:00
+ narae.han@example.com    | Nighthawks                      | Edward Hopper    | 2026-03-09 16:46:00
+ eunwoo.shin@example.com  | The Repast of the Lion          | Henri Rousseau   | 2026-03-18 19:31:00
+(12개 행)
+
+-- [조인 3 - INNER] 저작권 발급 기록을 작품·회원 정보와 함께 조회 (비로그인 발급 제외)
+SELECT r.number, a.title, u.email, r.issued_at
+FROM rights_records r
+INNER JOIN artworks a ON a.id = r.artwork_id
+INNER JOIN users u ON u.id = r.user_id
+ORDER BY r.issued_at;
+    number    |              title              |          email           |      issued_at      
+--------------+---------------------------------+--------------------------+---------------------
+ PD-2026-0001 | Wheat Field with Cypresses      | yuna.kim@example.com     | 2026-01-05 09:17:00
+ PD-2026-0002 | The Starry Night Over the Rhone | yuna.kim@example.com     | 2026-01-05 09:22:00
+ PD-2026-0003 | Nighthawks                      | minho.lee@example.com    | 2026-01-08 14:37:00
+ PD-2026-0004 | La Vie                          | sora.park@example.com    | 2026-01-12 10:14:00
+ PD-2026-0006 | The Fisherman                   | haeun.jung@example.com   | 2026-02-02 08:27:00
+ PD-2026-0007 | Wheat Field with Cypresses      | dowon.kang@example.com   | 2026-02-10 21:12:00
+ PD-2026-0008 | The Old Guitarist               | seoyeon.yoon@example.com | 2026-02-15 13:18:00
+ PD-2026-0010 | The Repast of the Lion          | eunwoo.shin@example.com  | 2026-03-18 19:32:00
+(8개 행)
+
+-- [조인 4 - LEFT] 모든 회원을 기준으로, 저작권 발급 기록이 없는 회원도 함께 조회
+SELECT u.email, r.number, r.issued_at
+FROM users u
+LEFT JOIN rights_records r ON r.user_id = u.id
+ORDER BY u.id;
+          email           |    number    |      issued_at      
+--------------------------+--------------+---------------------
+ yuna.kim@example.com     | PD-2026-0002 | 2026-01-05 09:22:00
+ yuna.kim@example.com     | PD-2026-0001 | 2026-01-05 09:17:00
+ minho.lee@example.com    | PD-2026-0003 | 2026-01-08 14:37:00
+ sora.park@example.com    | PD-2026-0004 | 2026-01-12 10:14:00
+ jihun.choi@example.com   |              | 
+ haeun.jung@example.com   | PD-2026-0006 | 2026-02-02 08:27:00
+ dowon.kang@example.com   | PD-2026-0007 | 2026-02-10 21:12:00
+ seoyeon.yoon@example.com | PD-2026-0008 | 2026-02-15 13:18:00
+ taeyang.song@example.com |              | 
+ narae.han@example.com    |              | 
+ eunwoo.shin@example.com  | PD-2026-0010 | 2026-03-18 19:32:00
+(11개 행)
+
+-- [집계 1 - COUNT] 회원별 채팅 횟수 집계
+SELECT user_id, COUNT(*) AS chat_count
+FROM chats
+GROUP BY user_id
+ORDER BY chat_count DESC;
+ user_id | chat_count 
+---------+------------
+       9 |          2
+       3 |          2
+      10 |          2
+       6 |          2
+       1 |          2
+       8 |          1
+       2 |          1
+       5 |          1
+       4 |          1
+       7 |          1
+(10개 행)
+
+-- [집계 2 - AVG] 출처(source)별 작품 평균 제작연도 집계
+SELECT source, ROUND(AVG(year_start), 1) AS avg_year_start
+FROM artworks
+GROUP BY source
+ORDER BY avg_year_start;
+ source | avg_year_start 
+--------+----------------
+ met    |         1887.4
+ cma    |         1899.3
+ aic    |         1914.8
+(3개 행)
+
+-- [집계 3 - SUM] 채팅 상태(status)별 총 응답 지연시간(ms) 합계
+SELECT status, SUM(latency_ms) AS total_latency_ms, COUNT(*) AS cnt
+FROM chats
+GROUP BY status;
+ status | total_latency_ms | cnt 
+--------+------------------+-----
+ ok     |             9160 |  12
+ error  |             5400 |   3
+(2개 행)
+
+-- [서브쿼리] 채팅 기록이 한 번도 없는 회원 찾기
+SELECT email
+FROM users
+WHERE id NOT IN (SELECT DISTINCT user_id FROM chats);
+ email 
+-------
+(0개 행)
+
+-- [수정] 채팅을 2회 이상 사용한 회원을 프리미엄으로 승급
+UPDATE users
+SET is_premium = TRUE
+WHERE id IN (
+    SELECT user_id FROM chats GROUP BY user_id HAVING COUNT(*) >= 2
+) AND is_premium = FALSE;
+UPDATE 3
+-- [삭제] 응답에 실패(error)하고 지연시간이 2000ms를 넘는 채팅 로그 삭제 (장애성 기록 정리)
+DELETE FROM chats
+WHERE status = 'error' AND latency_ms > 2000;
+DELETE 1
+-- [인덱스] 회원별 최근 채팅 조회가 가장 빈번해 (user_id, created_at) 복합 인덱스를 둔다
+-- (01_schema.sql에서 이미 생성됨: idx_chats_user_time)
+CREATE INDEX IF NOT EXISTS idx_chats_user_time ON chats (user_id, created_at);
+psql:sql/03_queries.sql:93: NOTICE:  relation "idx_chats_user_time" already exists, skipping
+CREATE INDEX
