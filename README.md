@@ -23,17 +23,8 @@ Codyssey "관계형 데이터베이스 설계 & SQL 작성" 미션 제출물.
 - `artworks.classification_id` → `classifications.classification_id` (분류 1개 : 작품 여러 점)
 - `curation_logs.artwork_id` → `artworks.artwork_id` (작품 1점 : 큐레이션 로그 여러 건)
 
-### ERD (텍스트)
-```
-artists (1) ───< artworks >─── (1) departments
-                   │   │
-                   │   └───> (1) classifications
-                   │
-                   (1)
-                    │
-                    ∨
-            curation_logs (N)
-```
+### ERD
+![ERD](docs/erd.png)
 
 ## 2. 데이터 출처
 
